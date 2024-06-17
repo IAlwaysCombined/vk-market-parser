@@ -12,6 +12,8 @@ load_dotenv()
 
 MAX_IMAGE_SIZE_MB = 6
 
+output_dir = 'output'
+
 
 def get_access_token():
     return os.getenv('ACCESS_TOKEN')
@@ -44,7 +46,7 @@ def create_excel_file(file_name, items):
         worksheet[f"G{row}"] = get_secondary_image_url(item)
         row += 1
 
-    workbook.save(f"{file_name}.xlsx")
+    workbook.save(f"output/{file_name}.xlsx")
     print(f"Данные успешно экспортированы в файл {file_name}.xlsx")
 
 
@@ -103,6 +105,9 @@ def get_vk_market_data(access_token, owner_id, vk_version, vk_market_url):
 
 
 def main():
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
     parser = argparse.ArgumentParser(description="Экспорт данных из VK Market в Excel")
     parser.add_argument("--file-name", default="vk_market_data", help="Имя файла для экспорта")
 
